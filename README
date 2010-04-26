@@ -1,0 +1,38 @@
+A quick and dirty Nagios check that does the following:
+
+* Calls /usr/sbin/drbd-overview
+* Parses the output collecting stats
+* Hardcoded checks for "Connected" and "Primary/Primary" statuses of the haresources defined in /etc/drbd.conf
+
+Installation
+------------
+
+* Get this repository
+* Copy check_drbd.pl to your path, I use '/usr/local/bin/'
+* chmod +x <path_to>/check_drbd.pl
+* NOTE: if you want NRPE to run this, you need to add a sudoers statement like such:
+
+root@xxx:~# cat /etc/sudoers 
+Defaults        env_reset
+nagios ALL=NOPASSWD: /usr/sbin/drbd-overview
+
+* And add the following to your NRPE config:
+
+command[check_drbd]=<path_to>/check_drbd.pl
+
+* Restart NRPE
+
+
+TODO
+----
+
+* Specify what to look for:
+    Secondary/Unknown
+    StandAlone
+    WFConnection
+    
+Licensing
+---------
+
+LGPLv3
+
